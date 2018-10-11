@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Mhipster Clock?</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  </head>
+  <style>
+    * {
+      margin: 0;
+    }
+    #object-svg {
+      margin: 0 auto;
+      height: 100vmin;
+      width: 100vmin;
+      display: block;
+      
+    }
+  </style>
+  <body>
+    <object id="object-svg" type="image/svg+xml" data="clock.svg">Your browser doesn't support SVGs! 真可惜哦！</object>
+
+    <script>
+      // Get reference to svg content document
+      const objectSvg = document.getElementById('object-svg');
+      let contentDoc;
+      objectSvg.addEventListener('load', (e) => {
+        contentDoc = objectSvg.contentDocument;
+        setup();
+      });
+
+      // Set some globals
+      const center = {x: 115, y: 115}
+      const radii = {
+        sec: 30,
+        min: 55,
+        hr: 80,
+        day: 105
+      };
+      const ringNames = ['sec','min','hr','day'];
+      let svg;
+      
+      // Get references to relevant svg elements & start the animation loop
+      function setup() {
+        svg = {};
+        ringNames.forEach(ring => {
+          svg[ring] = {};
+          svg[ring].left = contentDoc.getElementById(`${ring}-left`);
+          svg[ring].right = contentDoc.getElementById(`${ring}-right`);
+        });
+        
+        requestAnimationFrame(draw);
+      }
+      
+      // The loop
+      function draw() {
+        requestAnimationFrame(draw);
+      
+        let progress = getTimeProgress();
+        ringNames.forEach(ring => updateRing(ring, progress[ring]));
+      }
+      
+      // Draw a single ring
+      function updateRing(ring, progress) {
+        const { x: dx, y: dy } = circleCoords(radii[ring], progress * 360);
+        const {x: cx, y: cy} = center;
+        const radius = radii[ring];
+        
+        if (dx > 0) {
+          svg[ring].right.setAttribute('d', `M ${cx},${cy - radius} A ${radius},${radius} 0,0,1 ${cx + dx},${cy + dy}`);
+          svg[ring].left.setAttribute('d', `M ${cx},${cy + radius} A ${radius},${radius} 0,0,1 ${cx},${cy + radius}`); // hide left circle
+        } else {
+          svg[ring].right.setAttribute('d', `M ${cx},${cy - radius} A ${radius},${radius} 0,0,1 ${cx},${cy + radius}`);  // SHOW right circle
+          svg[ring].left.setAttribute('d', `M ${cx},${cy + radius} A ${radius},${radius} 0,0,1 ${cx + dx},${cy + dy}`);
+        }
+      }
+
+      // Helpers
+      function getTimeProgress() {
+        const date = new Date();
+        
+        const days = date.getDay();
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+        const seconds = date.getSeconds();
+        const millis = date.getMilliseconds();
+        
+        secondProgress = ((seconds + (millis/1000)) / 60);
+        minuteProgress = ((minutes + secondProgress) / 60);
+        hourProgress = ((hours + minuteProgress) / 24);
+        dayProgress = ((days + hourProgress) / 7);
+        
+        return {
+          sec: secondProgress,
+          min: minuteProgress,
+          hr: hourProgress,
+          day: dayProgress
+        };
+      }
+
+      function circleCoords(radius, degFromTop) {
+        degFromTop -= 90;
+        const rads = degToRad(degFromTop);
+        
+        return {
+          x: radius * Math.cos(rads),
+          y: radius * Math.sin(rads)
+        }
+      }
+      
+      function degToRad(deg) {
+        return (deg / 360) * (Math.PI * 2);
+      }
+
+    </script>
+  </body>
+</html>

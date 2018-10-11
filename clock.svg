@@ -1,0 +1,34 @@
+<svg version="1.1"
+     baseProfile="full"
+     xmlns="http://www.w3.org/2000/svg"
+     viewBox="0 0 230 230">
+  
+    <style>
+    /* <![CDATA[ */
+    
+      path {
+        stroke-width: 20;
+      fill: transparent;
+      }
+      .sec { stroke: #062; }
+      .min { stroke: #395; }
+      .hr { stroke: #6c8; }
+      .day { stroke: #8ea; }
+    /* ]]> */
+  </style>
+    
+  <!-- backgrounds, if desired -->
+  <circle cx="115" cy="115" r="30" stroke-width="20" stroke="lightgray" fill="transparent"></circle>
+  <circle cx="115" cy="115" r="55" stroke-width="20" stroke="lightgray" fill="transparent"></circle>
+  <circle cx="115" cy="115" r="80" stroke-width="20" stroke="lightgray" fill="transparent"></circle>
+  <circle cx="115" cy="115" r="105" stroke-width="20" stroke="lightgray" fill="transparent"></circle>
+  
+  <path id="sec-right" class="sec"/>
+  <path id="sec-left" class="sec" />
+  <path id="min-right" class="min" />
+  <path id="min-left" class="min" />
+  <path id="hr-right" class="hr"/>
+  <path id="hr-left" class="hr" />
+  <path id="day-right" class="day" />
+  <path id="day-left" class="day" />  
+</svg>
