@@ -15,10 +15,35 @@
       height: 100vmin;
       width: 100vmin;
       display: block;
-      
     }
+    #code-link {
+      position: absolute;
+      top: 3vmin;
+      left: 3vmin;
+      transition: all 250ms ease-out;
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+    
+    .link-icon {
+      height: 40px;
+      width: 40px;
+    }
+    
+    #code-link:hover {
+      transform: scale(1.25);
+      opacity: 1;
+    }
+    
   </style>
   <body>
+    <a href="https://github.com/michaelfoland/mhipster-clock" id="code-link" target="_blank">
+      <svg role="img" aria-labelledby="github-title" class="link-icon">
+        <title id="github-title">GitHub repo for mhipster-clock</title>
+        <use xlink:href="icons.svg#icon-github"></use>
+      </svg>
+    </a>  
+    
     <object id="object-svg" type="image/svg+xml" data="clock.svg">Your browser doesn't support SVGs! 真可惜哦！</object>
 
     <script>
